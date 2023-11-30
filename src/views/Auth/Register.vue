@@ -88,7 +88,7 @@ const registerAction = () => {
   if (register.value.password == register.value.confirmPassword) {
     register.value.status = true;
     localStorage.setItem("Auth_register", JSON.stringify(register.value));
-    localStorage.setItem("Auth", JSON.stringify(register.value));
+    store.LoginAuth(register.value)
     router.push('/')
   }
 };

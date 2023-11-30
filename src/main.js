@@ -6,11 +6,13 @@ import App from './App.vue'
 import router from './router'
 import api from "./service/api";
 import Covid from "./components/Covid.vue"
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 // import VueGoogleMaps from '@fawmi/vue-google-maps'
 // import HttpPlugin from './service/http-plugin.js'
 // import { registerPlugins } from "./plugins";
 
 const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 
 const app = createApp(App);
 app.config.globalProperties.api = api // Allow axios in all componenets this.$http

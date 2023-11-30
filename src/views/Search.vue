@@ -52,24 +52,24 @@
             id="dropdownDelayOne"
             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
           >
-          <ul
-                class="py-2 text-sm text-gray-700 dark:text-gray-200 dropdown-home"
-                aria-labelledby="dropdownHoverButton"
+            <ul
+              class="py-2 text-sm text-gray-700 dark:text-gray-200 dropdown-home"
+              aria-labelledby="dropdownHoverButton"
+            >
+              <li
+                class="paragraph"
+                v-for="(going, i) in going"
+                :key="i"
+                v-show="going.region"
               >
-                <li
-                  class="paragraph"
-                  v-for="(going, i) in going"
-                  :key="i"
-                  v-show="going.region"
+                <a
+                  :href="'/search/' + going.dest_id"
+                  class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                 >
-                  <a
-                    :href="'/search/' + going.dest_id"
-                    class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
-                  >
-                    <span>{{ going.region }}</span>
-                  </a>
-                </li>
-              </ul>
+                  <span>{{ going.region }}</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         <div
@@ -318,7 +318,6 @@
     </div>
     <div class="container mx-auto">
       <div class="grid grid-cols-7 gap-5">
-
         <!-- start search input  -->
         <div class="col-span-7 lg:col-span-2">
           <div class="search-text rounded-md p-5">
@@ -637,7 +636,10 @@
               </div>
             </div>
           </div>
-          <div class="loading text-center text-blue-500" v-if="store.loadingGeter">
+          <div
+            class="loading text-center text-blue-500"
+            v-if="store.loadingGeter"
+          >
             <p>Loading...</p>
           </div>
           <div
@@ -648,7 +650,10 @@
           >
             <div class="card-img">
               <img
-                :src="dataHotel.property.photoUrls[0]||'./../assets/img/Rect16.png'"
+                :src="
+                  dataHotel.property.photoUrls[0] ||
+                  './../assets/img/Rect16.png'
+                "
                 alt="home-img"
                 width="285px"
                 height="200px"
@@ -660,14 +665,20 @@
               <div class="card-header w-full">
                 <div class="heading flex items-center justify-between w-full">
                   <h4 class="heading-trip-card mb-2">
-                    {{ dataHotel.property.name.length <=20?dataHotel.property.name:dataHotel.property.name.slice(0,20)+'...' }}
+                    {{
+                      dataHotel.property.name.length <= 20
+                        ? dataHotel.property.name
+                        : dataHotel.property.name.slice(0, 20) + "..."
+                    }}
                   </h4>
                   <span
                     class="mb-2 py-1 px-2 rounded-md font-medium"
                     v-if="dataHotel.property.isPreferred"
                     >Book now and receive 15% off</span
                   >
-                  <span class="mb-2 py-1 px-2 rounded-md font-medium orange" v-else
+                  <span
+                    class="mb-2 py-1 px-2 rounded-md font-medium orange"
+                    v-else
                     >Receive 30% discount on a restaurant</span
                   >
                 </div>
@@ -717,21 +728,42 @@
                     <p class="li-text w-full lg:w-9/12">
                       {{ dataHotel.accessibilityLabel }}
                     </p>
-                    <span class="head-two py-1 px-2 rounded-md" v-if="!dataHotel.property.isPreferred">5% off</span>
+                    <span
+                      class="head-two py-1 px-2 rounded-md"
+                      v-if="!dataHotel.property.isPreferred"
+                      >5% off</span
+                    >
                   </div>
                 </div>
                 <div
                   class="card-actions-action flex flex-row justify-between items-center"
                 >
                   <router-link
-                    :to="{ name: 'ProductDetails', params: { id: dataHotel.hotel_id } }"
+                    :to="{
+                      name: 'ProductDetails',
+                      params: { id: dataHotel.hotel_id },
+                    }"
                   >
                     <button class="sign-in">See availability</button>
                   </router-link>
                   <div class="discount text-right">
                     <span
-                      ><del class="red-text mr-2" v-if="dataHotel.property.priceBreakdown.excludedPrice">$1{{i}}000</del>
-                      <strong class="heading-home" v-if="dataHotel.property.priceBreakdown.excludedPrice"> ${{Math.floor(dataHotel.property.priceBreakdown.excludedPrice.value)}}</strong></span
+                      ><del
+                        class="red-text mr-2"
+                        v-if="dataHotel.property.priceBreakdown.excludedPrice"
+                        >$1{{ i }}000</del
+                      >
+                      <strong
+                        class="heading-home"
+                        v-if="dataHotel.property.priceBreakdown.excludedPrice"
+                      >
+                        ${{
+                          Math.floor(
+                            dataHotel.property.priceBreakdown.excludedPrice
+                              .value
+                          )
+                        }}</strong
+                      ></span
                     >
                     <p class="heading-home mt-1.5 mb-4">
                       Includes taxes and fees
@@ -903,7 +935,7 @@ const store = useCounterStore();
 onMounted(() => {
   initDropdowns();
   hotelData();
-  getGoing()
+  getGoing();
 });
 
 // methods
@@ -931,7 +963,7 @@ const hotelData = async () => {
     })
     .catch((error) => {
       // handle error
-      return error
+      return error;
     });
 };
 const getGoing = async () => {

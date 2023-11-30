@@ -105,7 +105,7 @@
             </li>
           </ul>
         </div>
-        <div class="register mt-3" v-if="!user">
+        <div class="register mt-3" v-if="!user.email">
           <router-link to="/register" class="flex items-center justify-end">
             <button class="submit" href="/register">Register</button>
           </router-link>
@@ -346,6 +346,7 @@
 import { onMounted, ref, reactive } from "vue";
 import { initDropdowns } from "flowbite";
 import { useRouter } from "vue-router";
+import { useCounterStore } from "../../store";
 
 // mounted
 // initialize components based on data attribute selectors
@@ -355,13 +356,16 @@ onMounted(() => {
 
 // data
 const router = useRouter();
-const user = ref(JSON.parse(localStorage.getItem("Auth")));
+const store = useCounterStore()
+const user = store.loginGetter;
+
 // const router = useRouter();
 
 // methods
+console.log(user)
 const Logout = function () {
   router.push("/sign-in");
-  localStorage.removeItem("Auth");
+  store.LoginAuth({});
 };
 
 // const goRegister = () => {

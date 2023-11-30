@@ -28,21 +28,22 @@ export const useCounterStore = defineStore('counter', {
             status: '',
         },
         // loading
-        loading:false
+        loading: false
 
     }),
     getters: {
         doubleCount: (state) => state.count * 2,
-        loginGetter: (state) => state.Auth = JSON.parse(localStorage.getItem("Auth")),
-        loadingGeter:(state) => state.loading
+        loginGetter: (state) => state.Auth,
+        loadingGeter: (state) => state.loading
     },
     actions: {
 
-        LoginAuth() {
+        LoginAuth(value) {
+            this.Auth = value
         },
         SET_LOADING(value) {
-            console.log(value)
             this.loading = value
         }
     },
+    persist: true,
 })

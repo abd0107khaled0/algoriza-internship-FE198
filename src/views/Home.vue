@@ -19,9 +19,9 @@
       <!-- start services -->
       <div class="services-box relative">
         <div
-          class="services grid grid-cols-6 gap-3 justify-between items-center absolute left-1/2 z-10"
+          class="services grid grid-cols-6 lg:flex gap-4 justify-between items-center absolute left-1/2 z-10"
         >
-          <div class="drop-down-box col-span-3 lg:col-span-1">
+          <div class="drop-down-box col-span-2 lg:col-span-2">
             <button
               id="dropdownDefaultButton"
               data-dropdown-toggle="dropdown"
@@ -47,7 +47,7 @@
                 />
               </svg>
 
-              <span class="w-full text-left"> Dropdown button </span>
+              <span class="w-full text-left"> Where are you going? </span>
               <svg
                 v-if="statusSvg"
                 xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +108,9 @@
             </div>
           </div>
           <!-- check in data -->
-          <div class="information flex items-center col-span-2 lg:col-span-1">
+          <div
+            class="information flex items-center col-span-2 lg:col-span-1 lg:w-36"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -194,7 +196,9 @@
             <span>Check in date</span>
           </div>
           <!-- Check out date -->
-          <div class="information flex items-center col-span-2 lg:col-span-1">
+          <div
+            class="information flex items-center col-span-2 lg:col-span-1 lg:w-36"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -280,7 +284,9 @@
             <span>Check out date</span>
           </div>
           <!-- Guests -->
-          <div class="information flex items-center col-span-2 lg:col-span-1">
+          <div
+            class="information flex items-center col-span-2 lg:col-span-1 lg:w-36"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -320,7 +326,9 @@
             <span>Guests</span>
           </div>
           <!-- Rooms -->
-          <div class="information flex items-center col-span-2 lg:col-span-1">
+          <div
+            class="information flex items-center col-span-2 lg:col-span-1 lg:w-36"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -345,7 +353,7 @@
             <span>Rooms</span>
           </div>
           <!-- Search -->
-          <div class="search">
+          <div class="search col-span-2 lg:w-36">
             <a href="/search/-290692"> Search </a>
           </div>
         </div>
@@ -545,6 +553,10 @@ const inspiration = reactive([
   },
 ]);
 
+const store = useCounterStore();
+
+const Auth = store.loginGetter;
+
 const statusSvg = ref(true);
 
 const going = ref([]);
@@ -577,7 +589,6 @@ const getGoing = async () => {
 };
 
 // access the `store` variable anywhere in the component ✨
-const store = useCounterStore();
 </script>
 
 <style lang="scss" scoped>

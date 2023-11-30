@@ -48,9 +48,11 @@
 import Dream from "../../components/Dream.vue";
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useCounterStore } from "../../store";
 
 // data
 const router = useRouter()
+const store = useCounterStore()
 const show = ref(false);
 const showConfirm = ref(false);
 const login = ref({
@@ -68,7 +70,7 @@ const loginAction = () => {
       login.value.password == user.password
     ) {
       router.push('/')
-      localStorage.setItem("Auth", JSON.stringify(login.value));
+      store.LoginAuth(login.value)
     } else {
       login.value.status = true;
     }

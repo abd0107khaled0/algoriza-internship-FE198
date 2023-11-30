@@ -1,4 +1,5 @@
 // import store from "../vuex";
+import {useCounterStore} from "./../store/index";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -66,8 +67,9 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
     document.title = to.meta.title;
-    let status = JSON.parse(localStorage.getItem('Auth'));
-    if (to.meta.requiresAuth && !status ) {
+    let store = useCounterStore()
+    let status = store.loginGetter
+    if (to.meta.requiresAuth && !status.email ) {
         return {
             path: "/sign-in",
             query: { redirect: to.fullPath },
