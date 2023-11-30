@@ -1,18 +1,22 @@
 <template>
   <div class="product-details">
     <div class="container mx-auto">
+      <div class="loading text-center" v-if="store.loadingGeter">
+        <p class="text-blue-500">loading...</p>
+      </div>
       <!-- start image -->
-      <div class="grid grid-cols-3 gap-5">
+      <div class="grid grid-cols-3 gap-5 " v-if="dataDetails">
         <div class="col-span-3 lg:col-span-2 md:col-span-2">
-          <img src="./../assets/img/Rect18.png" class="w-full" alt="Rect18" />
+          <img :src="imgChange" class="w-full" alt="Rect18" /> 
         </div>
-        <div class="col-span-3 lg:col-span-1 md:col-span-1">
+        <div class="col-span-3 lg:col-span-1 md:col-span-1 img-box">
           <img
             src="./../assets/img/Rect19.png"
-            class="mb-5 lg:mb-4 md:mb-4 w-full"
+            class="mb-5 lg:mb-4 md:mb-4 w-full cursor-pointer"
             alt="Rect19"
+            @click="imgChange = '/src/assets/img/Rect19.png'"
           />
-          <img src="./../assets/img/Rect20.png" class="w-full" alt="Rect20" />
+          <img src="./../assets/img/Rect20.png" class="w-full cursor-pointer" alt="Rect20" @click="imgChange = '/src/assets/img/Rect20.png'" />
         </div>
       </div>
       <!-- end image -->
@@ -22,54 +26,13 @@
         <span class="heading-home span-over pb-2 px-2">Overview</span>
         <div class="dropdown pb-3">
           <span
-            id="dropdownDefaultButton"
-            data-dropdown-toggle="dropdown"
-            data-dropdown-trigger="hover"
+          @click="scrollToSection"
             class="heading-home cursor-pointer"
             type="button"
           >
             Rooms
           </span>
-
-          <!-- Dropdown menu -->
-          <div
-            id="dropdown"
-            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-          >
-            <ul
-              class="py-2 text-sm text-gray-700 dark:text-gray-200"
-              aria-labelledby="dropdownDefaultButton"
-            >
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Dashboard</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Settings</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Earnings</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Sign out</a
-                >
-              </li>
-            </ul>
-          </div>
+       
         </div>
       </div>
       <!-- end overview -->
@@ -153,11 +116,10 @@
               <h4 class="p-6">Overview</h4>
               <div
                 class="para flex flex-col gap-8 paragraph mb-8 p-6 pt-0 pb-0"
+                v-if="dataDetails"
               >
                 <p>
-                  Featuring free WiFi throughout the property, Lakeside Motel
-                  Waterfront offers accommodations in Lakes Entrance, 19 mi from
-                  Bairnsdale. Free private parking is available on site.
+                  {{ dataDetails[0].description }}
                 </p>
                 <p>
                   Each room at this motel is air conditioned and comes with a
@@ -563,7 +525,7 @@
             </ul>
           </div>
         </div>
-        <div class="rooms grid grid-cols-3 gap-8 pt-10">
+        <div class="rooms grid grid-cols-3 gap-8 pt-10" id="scroll-section">
           <div class="col-span-3 lg:col-span-1 place-room">
             <div class="place-room-box flex items-center p-5">
               <div class="place">
@@ -873,19 +835,55 @@
 
 <script setup>
 // import
-// import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { onMounted, ref, reactive } from "vue";
 import { initDropdowns } from "flowbite";
+import { useCounterStore } from "./../store/index.js";
+import api from "../service/api";
 
 // data
+const route = useRoute();
+const store = useCounterStore();
+const dataDetails = ref();
 const list = reactive([{}]);
+const imgChange = ref('/src/assets/img/Rect18.png')
+const targetSectionId = ref('scroll-section');
+
+
 
 // mounted
-
 // initialize components based on data attribute selectors
 onMounted(() => {
   initDropdowns();
+  hotelDetails();
 });
+// methods
+const hotelDetails = async () => {
+  store.SET_LOADING(true);
+  api
+    .get("hotels/getDescriptionAndInfo", {
+      params: {
+        hotel_id: route.params.id,
+        languagecode: "en-us",
+      },
+    })
+    .then((response) => {
+      // handle success
+      store.SET_LOADING(false);
+      dataDetails.value = response.data.data;
+    })
+    .catch((error) => {
+      // handle error
+      return error;
+    });
+};
+// Function to scroll-section
+const scrollToSection = () => {
+  const targetElement = document.getElementById(targetSectionId.value);
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: 'smooth' });
+  }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -52,39 +52,24 @@
             id="dropdownDelayOne"
             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
           >
-            <ul
-              class="py-2 text-sm text-gray-700 dark:text-gray-200"
-              aria-labelledby="dropdownDelayButton"
-            >
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Dashboard</a
+          <ul
+                class="py-2 text-sm text-gray-700 dark:text-gray-200 dropdown-home"
+                aria-labelledby="dropdownHoverButton"
+              >
+                <li
+                  class="paragraph"
+                  v-for="(going, i) in going"
+                  :key="i"
+                  v-show="going.region"
                 >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Settings</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Earnings</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Sign out</a
-                >
-              </li>
-            </ul>
+                  <a
+                    :href="'/search/' + going.dest_id"
+                    class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
+                  >
+                    <span>{{ going.region }}</span>
+                  </a>
+                </li>
+              </ul>
           </div>
         </div>
         <div
@@ -333,6 +318,7 @@
     </div>
     <div class="container mx-auto">
       <div class="grid grid-cols-7 gap-5">
+
         <!-- start search input  -->
         <div class="col-span-7 lg:col-span-2">
           <div class="search-text rounded-md p-5">
@@ -651,17 +637,22 @@
               </div>
             </div>
           </div>
-          <div class="loading text-center text-blue-500" v-if="loading">
+          <div class="loading text-center text-blue-500" v-if="store.loadingGeter">
             <p>Loading...</p>
           </div>
           <div
-            class="card-box p-5 flex flex-col lg:flex-row items-center gap-6 bg-white mb-5"
-            v-for="(n, i) in dataHotels.hotels"
+            class="card-box p-5 flex items-start flex-col lg:flex-row gap-6 bg-white mb-5"
+            v-for="(dataHotel, i) in dataHotels.hotels"
             :key="i"
             v-if="dataHotels"
           >
             <div class="card-img">
-              <img src="./../assets/img/Rect16.png" alt="" />
+              <img
+                :src="dataHotel.property.photoUrls[0]||'./../assets/img/Rect16.png'"
+                alt="home-img"
+                width="285px"
+                height="200px"
+              />
             </div>
             <div
               class="card-body flex flex-col justify-between items-start w-full"
@@ -669,15 +660,15 @@
               <div class="card-header w-full">
                 <div class="heading flex items-center justify-between w-full">
                   <h4 class="heading-trip-card mb-2">
-                    Lakeside Motel Warefront
+                    {{ dataHotel.property.name.length <=20?dataHotel.property.name:dataHotel.property.name.slice(0,20)+'...' }}
                   </h4>
                   <span
                     class="mb-2 py-1 px-2 rounded-md font-medium"
-                    v-if="false"
+                    v-if="dataHotel.property.isPreferred"
                     >Book now and receive 15% off</span
                   >
-                  <span class="mb-2 py-1 px-2 rounded-md font-medium orange"
-                    >Book now and receive 15% off</span
+                  <span class="mb-2 py-1 px-2 rounded-md font-medium orange" v-else
+                    >Receive 30% discount on a restaurant</span
                   >
                 </div>
                 <div class="flex items-center footer-span">
@@ -688,7 +679,11 @@
                       height="20"
                       viewBox="0 0 20 20"
                       fill="none"
-                      v-for="(n, i) in 4"
+                      v-for="(n, i) in Math.floor(
+                        dataHotel.property.reviewScore / 2
+                      ) > 10
+                        ? 5
+                        : Math.floor(dataHotel.property.reviewScore / 2)"
                       :key="i"
                     >
                       <g clip-path="url(#clip0_1_1662)">
@@ -703,27 +698,12 @@
                         </clipPath>
                       </defs>
                     </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="10"
-                      height="20"
-                      viewBox="0 0 10 20"
-                      fill="none"
-                    >
-                      <g clip-path="url(#clip0_1_1674)">
-                        <path
-                          d="M10.0002 14.1668L5.10186 17.1585L6.43353 11.5752L2.0752 7.84183L7.79603 7.3835L10.0002 2.0835L12.2044 7.3835L17.926 7.84183L13.5669 11.5752L14.8985 17.1585L10.0002 14.1668Z"
-                          fill="#F2994A"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_1_1674">
-                          <rect width="10" height="20" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
                   </div>
-                  <span class="ml-3">4.5 (1200 Reviews)</span>
+                  <span class="ml-3"
+                    >{{ Math.floor(dataHotel.property.reviewCount) }} ({{
+                      Math.floor(dataHotel.property.reviewCount) + " reviews"
+                    }})</span
+                  >
                 </div>
               </div>
               <div class="card-actions flex flex-col justify-between w-full">
@@ -735,24 +715,23 @@
                     class="description heading flex items-center justify-between mb-6"
                   >
                     <p class="li-text w-full lg:w-9/12">
-                      Reats include a glass of French champagne, parking and a
-                      late checkout. Gym included. Flexible cancellation applies
+                      {{ dataHotel.accessibilityLabel }}
                     </p>
-                    <span class="head-two py-1 px-2 rounded-md">5% off</span>
+                    <span class="head-two py-1 px-2 rounded-md" v-if="!dataHotel.property.isPreferred">5% off</span>
                   </div>
                 </div>
                 <div
                   class="card-actions-action flex flex-row justify-between items-center"
                 >
                   <router-link
-                    :to="{ name: 'ProductDetails', params: { id: i } }"
+                    :to="{ name: 'ProductDetails', params: { id: dataHotel.hotel_id } }"
                   >
                     <button class="sign-in">See availability</button>
                   </router-link>
                   <div class="discount text-right">
                     <span
-                      ><del class="red-text mr-2">$150</del>
-                      <strong class="heading-home"> $130</strong></span
+                      ><del class="red-text mr-2" v-if="dataHotel.property.priceBreakdown.excludedPrice">$1{{i}}000</del>
+                      <strong class="heading-home" v-if="dataHotel.property.priceBreakdown.excludedPrice"> ${{Math.floor(dataHotel.property.priceBreakdown.excludedPrice.value)}}</strong></span
                     >
                     <p class="heading-home mt-1.5 mb-4">
                       Includes taxes and fees
@@ -762,7 +741,7 @@
               </div>
             </div>
           </div>
-          <nav class="flex justify-center">
+          <nav class="flex justify-center" v-if="dataHotels">
             <ul class="flex items-center gap-1 mt-12 mb-10">
               <li>
                 <svg
@@ -907,7 +886,7 @@ import { onMounted, ref, reactive } from "vue";
 import { initDropdowns } from "flowbite";
 import { useRoute } from "vue-router";
 import { FwbPagination } from "flowbite-vue";
-
+import { useCounterStore } from "./../store/index.js";
 // api-service integration
 import api from "./../service/api";
 
@@ -916,17 +895,20 @@ const currentPage = ref(1);
 const route = useRoute();
 const dataHotels = ref();
 const loading = ref(false);
+const going = ref([]);
+const store = useCounterStore();
 
 // mounted
 // initialize components based on data attribute selectors
 onMounted(() => {
   initDropdowns();
-  going();
+  hotelData();
+  getGoing()
 });
 
 // methods
-const going = async () => {
-  loading.value = true;
+const hotelData = async () => {
+  store.SET_LOADING(true);
   api
     .get("/hotels/searchHotels", {
       params: {
@@ -945,11 +927,25 @@ const going = async () => {
     .then((response) => {
       // handle success
       dataHotels.value = response.data.data;
-      loading.value = false;
+      store.SET_LOADING(false);
     })
     .catch((error) => {
       // handle error
-      console.error(error);
+      return error
+    });
+};
+const getGoing = async () => {
+  api
+    .get("/hotels/searchDestination", {
+      params: { query: "egypt" },
+    })
+    .then((response) => {
+      // handle success
+      going.value = response.data.data;
+      console.log(going.value);
+    })
+    .catch((error) => {
+      // handle error
     });
 };
 </script>

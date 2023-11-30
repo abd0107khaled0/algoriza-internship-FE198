@@ -472,9 +472,9 @@
 <script setup>
 // import
 import Covid from "./../components/Covid.vue";
-import { useCounterStore } from "./../store/index.js";
 import { onMounted, ref, reactive } from "vue";
 import { initDropdowns } from "flowbite";
+import { useCounterStore } from "./../store/index.js";
 import api from "../service/api";
 
 // data

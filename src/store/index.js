@@ -7,12 +7,6 @@ export const useCounterStore = defineStore('counter', {
         //Check if pinia works
         check: "test",
         lang: "en",
-        //Loading
-        loading: {
-            ui: false,
-            DataTable: false,
-            customSection: false,
-        },
         //Success Messages
         success: {
             createContact: false,
@@ -33,17 +27,22 @@ export const useCounterStore = defineStore('counter', {
             password: '',
             status: '',
         },
+        // loading
+        loading:false
 
     }),
     getters: {
         doubleCount: (state) => state.count * 2,
-        loginGetter: (state) => state.Auth = JSON.parse(localStorage.getItem("Auth"))
+        loginGetter: (state) => state.Auth = JSON.parse(localStorage.getItem("Auth")),
+        loadingGeter:(state) => state.loading
     },
     actions: {
+
         LoginAuth() {
         },
-        SET_LOADING(state, { name, value }) {
-            state.loading[name] = value
+        SET_LOADING(value) {
+            console.log(value)
+            this.loading = value
         }
     },
 })
