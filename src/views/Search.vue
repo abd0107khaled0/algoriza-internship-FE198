@@ -651,10 +651,14 @@
               </div>
             </div>
           </div>
+          <div class="loading text-center text-blue-500" v-if="loading">
+            <p>Loading...</p>
+          </div>
           <div
             class="card-box p-5 flex flex-col lg:flex-row items-center gap-6 bg-white mb-5"
-            v-for="(n, i) in 6"
+            v-for="(n, i) in dataHotels.hotels"
             :key="i"
+            v-if="dataHotels"
           >
             <div class="card-img">
               <img src="./../assets/img/Rect16.png" alt="" />
@@ -901,16 +905,17 @@
 // import
 import { onMounted, ref, reactive } from "vue";
 import { initDropdowns } from "flowbite";
+import { useRoute } from "vue-router";
 import { FwbPagination } from "flowbite-vue";
 
+// api-service integration
 import api from "./../service/api";
-import axios from "axios";
-import { useRoute } from "vue-router";
 
 // data
 const currentPage = ref(1);
 const route = useRoute();
 const dataHotels = ref();
+const loading = ref(false);
 
 // mounted
 // initialize components based on data attribute selectors
@@ -921,6 +926,7 @@ onMounted(() => {
 
 // methods
 const going = async () => {
+  loading.value = true;
   api
     .get("/hotels/searchHotels", {
       params: {
@@ -938,8 +944,8 @@ const going = async () => {
     })
     .then((response) => {
       // handle success
-      dataHotels.value = response.data.data
-      console.log(dataHotels.value.hotels)
+      dataHotels.value = response.data.data;
+      loading.value = false;
     })
     .catch((error) => {
       // handle error
@@ -969,6 +975,12 @@ const going = async () => {
     }
     button {
       width: 100%;
+    }
+  }
+  .card-actions {
+    h5,
+    p {
+      text-align: left;
     }
   }
   .card-box {
