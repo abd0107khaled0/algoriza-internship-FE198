@@ -110,7 +110,9 @@
           <!-- check in data -->
           <div
             class="information flex items-center col-span-2 lg:col-span-1 lg:w-36"
+            @click="$refs.dateOne.click()"
           >
+            <input type="date" ref="dateOne" class="hidden" :min="minDate" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -553,11 +555,24 @@ const inspiration = reactive([
   },
 ]);
 
+const minDate = ref();
+
 const store = useCounterStore();
 
 const Auth = store.loginGetter;
 
 const statusSvg = ref(true);
+
+const currentDate = new Date();
+var currentYear = currentDate.getFullYear();
+var currentMonth = currentDate.getMonth();
+var currentDay = currentDate.getDate();
+minDate.value =
+  currentDate.getFullYear() +
+  "-" +
+  (currentDate.getMonth() + 1) +
+  "-" +
+  currentDate.getDate();
 
 const going = ref([]);
 
