@@ -35,7 +35,7 @@
               $route.name == 'Search' ? 'text-white' : '',
             ]"
           >
-            my Dream Place
+            My Dream Place
           </h2>
         </div>
         <div

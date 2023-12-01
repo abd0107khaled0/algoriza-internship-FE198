@@ -354,7 +354,6 @@
                 v-model="searchByName"
                 class="border-none w-full rounded outline-none"
                 placeholder="eg. Beach westpalm"
-                @input="searchFilter()"
               />
             </div>
           </div>
@@ -436,10 +435,10 @@
               class="own-budget p-5 pt-0 pb-2 flex items-center justify-between"
             >
               <span class="li-text">Set your own budget</span>
-              <label class="relative inline-flex items-center cursor-pointer" >
+              <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" value="" class="sr-only peer" />
                 <div
-                @click="disabled=!disabled"
+                  @click="disabled = !disabled"
                   class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
                 ></div>
               </label>
@@ -615,7 +614,9 @@
         <!-- start search result  -->
         <div class="col-span-7 lg:col-span-5">
           <div class="search-result flex items-start justify-between mb-10">
-            <h1 class="heading-auth">Melbourne : 2,582 search results found</h1>
+            <h1 class="heading-auth">
+              Egypt : {{ HotelLength }} search results found
+            </h1>
             <div class="drop-down">
               <button
                 id="dropdownDelayButton"
@@ -626,7 +627,7 @@
               >
                 <div class="text-dro flex flex-col items-start">
                   <small class="sort">Sort by</small>
-                  <strong class="heading-para">Dropdown hover</strong>
+                  <strong class="heading-para">Recommended</strong>
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -657,15 +658,15 @@
                 >
                   <li
                     class="paragraph"
-                    v-for="(going, i) in going"
+                    v-for="(dropdownRecommend, i) in dropdownRecommend"
                     :key="i"
-                    v-show="going.region"
-                    @click="sortBy(going.search_type)"
+                    v-show="dropdownRecommend.title"
                   >
                     <a
+                      @click="sort_byMethod(dropdownRecommend.id)"
                       class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                     >
-                      <span>{{ going.search_type }}</span>
+                      <span>{{ dropdownRecommend.title }}</span>
                     </a>
                   </li>
                 </ul>
@@ -971,13 +972,17 @@ const dataHotelsHotels = ref("");
 const search_type = ref("city");
 const min = ref();
 const max = ref();
+const HotelLength = ref();
+const dropdownRecommend = ref();
 const disabled = ref(false);
+const sort_by = ref("");
 
 // mounted
 // initialize components based on data attribute selectors
 onMounted(() => {
   initDropdowns();
   hotelData();
+  sortBy();
   getGoing();
 });
 
@@ -994,6 +999,7 @@ const hotelData = async () => {
         adults: "1",
         children_age: "0,17",
         room_qty: "1",
+        sort_by: "",
         page_number: "1",
         price_min: min.value,
         price_max: max.value,
@@ -1005,7 +1011,7 @@ const hotelData = async () => {
       // handle success
       dataHotels.value = response.data.data;
       dataHotelsHotels.value = response.data.data.hotels;
-      console.log(dataHotelsHotels.value, "dataHotels");
+      HotelLength.value = dataHotels.value.length;
       store.SET_LOADING(false);
     })
     .catch((error) => {
@@ -1042,11 +1048,16 @@ const sortBy = async (name) => {
       },
     })
     .then((response) => {
-      dataHotelsHotels.value = response.data.data;
+      dropdownRecommend.value = response.data.data;
     })
     .catch((error) => {
       return error;
     });
+};
+
+const sort_byMethod = (sort) => {
+  sort_by.value = sort;
+  hotelData();
 };
 
 const minMax = (minV, maxV) => {
@@ -1057,6 +1068,7 @@ const minMax = (minV, maxV) => {
 
 // computed
 let filtereByName = computed(() => {
+  HotelLength.value = dataHotelsHotels.value.length;
   return dataHotelsHotels.value.filter((item) => {
     return item.property.name
       .toLowerCase()
