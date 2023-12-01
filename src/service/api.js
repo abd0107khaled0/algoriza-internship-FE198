@@ -3,8 +3,8 @@ import { useCounterStore } from "./../store/index.js";
 
 let baseURL = import.meta.env.VITE_API;
 let headers = {
-    "X-RapidAPI-Key": "1d3aea4fb8msh79a268a08515526p112421jsn84b613c2803f",
-    "X-RapidAPI-Host": "booking-com15.p.rapidapi.com",
+    'X-RapidAPI-Key': '7ae494a24fmsh0713be035b78a0ap1eeb98jsn328a90a49cbc',
+    'X-RapidAPI-Host': 'booking-com15.p.rapidapi.com'
 }
 
 const api = axios.create({

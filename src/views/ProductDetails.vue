@@ -5,9 +5,9 @@
         <p class="text-blue-500">loading...</p>
       </div>
       <!-- start image -->
-      <div class="grid grid-cols-3 gap-5 " v-if="dataDetails">
+      <div class="grid grid-cols-3 gap-5" v-if="dataDetails">
         <div class="col-span-3 lg:col-span-2 md:col-span-2">
-          <img :src="imgChange" class="w-full" alt="Rect18" /> 
+          <img :src="imgChange" class="w-full" alt="Rect18" />
         </div>
         <div class="col-span-3 lg:col-span-1 md:col-span-1 img-box">
           <img
@@ -16,7 +16,12 @@
             alt="Rect19"
             @click="imgChange = '/src/assets/img/Rect19.png'"
           />
-          <img src="./../assets/img/Rect20.png" class="w-full cursor-pointer" alt="Rect20" @click="imgChange = '/src/assets/img/Rect20.png'" />
+          <img
+            src="./../assets/img/Rect20.png"
+            class="w-full cursor-pointer"
+            alt="Rect20"
+            @click="imgChange = '/src/assets/img/Rect20.png'"
+          />
         </div>
       </div>
       <!-- end image -->
@@ -26,13 +31,12 @@
         <span class="heading-home span-over pb-2 px-2">Overview</span>
         <div class="dropdown pb-3">
           <span
-          @click="scrollToSection"
+            @click="scrollToSection"
             class="heading-home cursor-pointer"
             type="button"
           >
             Rooms
           </span>
-       
         </div>
       </div>
       <!-- end overview -->
@@ -41,9 +45,9 @@
     <!-- start overview-information -->
     <div class="overview-information">
       <div class="container mx-auto">
-        <div class="motel grid grid-cols-3 gap-8 pt-10">
+        <div class="motel grid grid-cols-3 gap-8 pt-10" v-if="hotelDataDetails">
           <div class="col-span-3 lg:col-span-2 md:col-span-3">
-            <h2 class="heading-auth">Lakeside Motel Warefront</h2>
+            <h2 class="heading-auth">{{hotelDataDetails.hotel_name}}</h2>
             <div class="review flex items-center gap-3 mt-3">
               <div class="svg flex">
                 <svg
@@ -52,7 +56,7 @@
                   height="20"
                   viewBox="0 0 20 20"
                   fill="none"
-                  v-for="(n, i) in 4"
+                  v-for="(n, i) in hotelDataDetails.review_nr"
                   :key="i"
                 >
                   <g clip-path="url(#clip0_1_1283)">
@@ -87,7 +91,7 @@
                   </defs>
                 </svg>
               </div>
-              <span class="li-text">4.5 (1200 Reviews)</span>
+              <span class="li-text">{{hotelDataDetails.review_nr}} ({{ hotelDataDetails.review_nr }} Reviews)</span>
             </div>
             <div class="loream flex items-center gap-1.5 mt-3">
               <svg
@@ -109,7 +113,7 @@
                 />
               </svg>
               <p class="heading-para">
-                Lorem ipsum road, Tantruim-2322, Melbourne, Australia
+                {{hotelDataDetails.address}}
               </p>
             </div>
             <div class="overflow bg-white mt-8">
@@ -140,7 +144,7 @@
               </div>
               <div class="list p-6 pt-0 flex items-center gap-32">
                 <ul class="flex flex-col gap-3">
-                  <li class="flex items-center gap-3">
+                  <li class="flex items-center gap-3" >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"
@@ -689,7 +693,7 @@
             </div>
           </div>
           <div class="col-span-3 lg:col-span-1">
-            <div class="card-box bg-white rounded-md">
+            <div class="card-box bg-white rounded-md" v-for="(room ,i) in hotelDataDetails.rooms" :key="i">
               <img
                 src="./../assets/img/Rect22.png"
                 alt="Rect22"
@@ -846,10 +850,9 @@ const route = useRoute();
 const store = useCounterStore();
 const dataDetails = ref();
 const list = reactive([{}]);
-const imgChange = ref('/src/assets/img/Rect18.png')
-const targetSectionId = ref('scroll-section');
-
-
+const imgChange = ref("/src/assets/img/Rect18.png");
+const targetSectionId = ref("scroll-section");
+const hotelDataDetails = ref([]);
 
 // mounted
 // initialize components based on data attribute selectors
@@ -858,30 +861,56 @@ onMounted(() => {
   hotelDetails();
 });
 // methods
+
 const hotelDetails = async () => {
   store.SET_LOADING(true);
   api
-    .get("hotels/getDescriptionAndInfo", {
+    .get("/hotels/getHotelDetails", {
       params: {
         hotel_id: route.params.id,
+        arrival_date: "2023-12-20",
+        departure_date: "2024-02-29",
+        adults: "1",
+        children_age: "1,17",
+        room_qty: "1",
         languagecode: "en-us",
+        currency_code: "EUR",
       },
     })
     .then((response) => {
       // handle success
-      store.SET_LOADING(false);
-      dataDetails.value = response.data.data;
+      hotelDataDetails.value = response.data.data
+
+      // description
+      api
+        .get("hotels/getDescriptionAndInfo", {
+          params: {
+            hotel_id: route.params.id,
+            languagecode: "en-us",
+          },
+        })
+        .then((response) => {
+          // handle success
+          store.SET_LOADING(false);
+          dataDetails.value = response.data.data;
+        })
+        .catch((error) => {
+          // handle error
+          return error;
+        });
     })
     .catch((error) => {
       // handle error
       return error;
     });
 };
+
+
 // Function to scroll-section
 const scrollToSection = () => {
   const targetElement = document.getElementById(targetSectionId.value);
   if (targetElement) {
-    targetElement.scrollIntoView({ behavior: 'smooth' });
+    targetElement.scrollIntoView({ behavior: "smooth" });
   }
 };
 </script>

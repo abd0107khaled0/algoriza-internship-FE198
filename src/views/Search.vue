@@ -351,8 +351,10 @@
               <input
                 type="text"
                 name="search"
+                v-model="searchByName"
                 class="border-none w-full rounded outline-none"
                 placeholder="eg. Beach westpalm"
+                @input="searchFilter()"
               />
             </div>
           </div>
@@ -366,57 +368,106 @@
             <div class="budget p-5 flex flex-col gap-3.5">
               <div class="budget-box flex items-center justify-between">
                 <div class="value flex items-center gap-2">
-                  <input type="checkbox" name="" id="" value="0" />
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    value="0"
+                    @click="minMax('0', '200')"
+                  />
                   <span class="typegrap">$0 - $200</span>
                 </div>
                 <span class="typegrap">200</span>
               </div>
               <div class="budget-box flex items-center justify-between">
                 <div class="value flex items-center gap-2">
-                  <input type="checkbox" name="" id="" value="0" />
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    value="0"
+                    @click="minMax(200, 500)"
+                  />
                   <span class="typegrap">$200 - $500</span>
                 </div>
                 <span class="typegrap">100</span>
               </div>
               <div class="budget-box flex items-center justify-between">
                 <div class="value flex items-center gap-2">
-                  <input type="checkbox" name="" id="" value="0" />
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    value="0"
+                    @click="minMax(500, 1000)"
+                  />
                   <span class="typegrap">$500 - $1,000</span>
                 </div>
                 <span class="typegrap">15</span>
               </div>
               <div class="budget-box flex items-center justify-between">
                 <div class="value flex items-center gap-2">
-                  <input type="checkbox" name="" id="" value="0" />
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    value="0"
+                    @click="minMax(1000, 2000)"
+                  />
                   <span class="typegrap">$1,000 - $2,000</span>
                 </div>
                 <span class="typegrap">12</span>
               </div>
               <div class="budget-box flex items-center justify-between">
                 <div class="value flex items-center gap-2">
-                  <input type="checkbox" name="" id="" value="0" />
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    value="0"
+                    @click="minMax(2000, 5000)"
+                  />
                   <span class="typegrap">$2,000 - $5,000</span>
                 </div>
                 <span class="typegrap">230</span>
               </div>
             </div>
-            <div class="own-budget p-5 pt-0 flex items-center justify-between">
+            <div
+              class="own-budget p-5 pt-0 pb-2 flex items-center justify-between"
+            >
               <span class="li-text">Set your own budget</span>
-
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label class="relative inline-flex items-center cursor-pointer" >
                 <input type="checkbox" value="" class="sr-only peer" />
                 <div
+                @click="disabled=!disabled"
                   class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
                 ></div>
               </label>
             </div>
-            <div class="min-max flex items-center p-5 pt-0 justify-between">
-              <div class="min p-3 rounded">
-                <span class="typegrap">Min budget</span>
+            <div class="min-max p-2 m-3 mt-0 border-dashed border-1">
+              <div class="inputs flex items-center gap-3 mb-2">
+                <div class="min py-1 rounded w-28">
+                  <input
+                    type="number"
+                    class="w-full border-none py-1"
+                    placeholder="Min budget"
+                    v-model="min"
+                    :disabled="!disabled"
+                  />
+                </div>
+                <div class="max p-1 rounded w-32">
+                  <input
+                    type="number"
+                    class="w-full border-none py-1"
+                    placeholder="Max budget"
+                    v-model="max"
+                    :disabled="!disabled"
+                  />
+                </div>
               </div>
-              <div class="max p-3 rounded">
-                <span class="typegrap">Max budget</span>
-              </div>
+              <span class="li-text" @click="minMax(min, max)"
+                >Press Enter to filter</span
+              >
             </div>
           </div>
           <div class="filter my-5 rounded-md">
@@ -601,36 +652,21 @@
                 class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
               >
                 <ul
-                  class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="dropdownDelayButton"
+                  class="py-2 text-sm text-gray-700 dark:text-gray-200 dropdown-home"
+                  aria-labelledby="dropdownHoverButton"
                 >
-                  <li>
+                  <li
+                    class="paragraph"
+                    v-for="(going, i) in going"
+                    :key="i"
+                    v-show="going.region"
+                    @click="sortBy(going.search_type)"
+                  >
                     <a
-                      href="#"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >Dashboard</a
+                      class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                     >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >Settings</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >Earnings</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >Sign out</a
-                    >
+                      <span>{{ going.search_type }}</span>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -644,7 +680,7 @@
           </div>
           <div
             class="card-box p-5 flex items-start flex-col lg:flex-row gap-6 bg-white mb-5"
-            v-for="(dataHotel, i) in dataHotels.hotels"
+            v-for="(dataHotel, i) in filtereByName"
             :key="i"
             v-if="dataHotels"
           >
@@ -773,6 +809,7 @@
               </div>
             </div>
           </div>
+
           <nav class="flex justify-center" v-if="dataHotels">
             <ul class="flex items-center gap-1 mt-12 mb-10">
               <li>
@@ -914,7 +951,7 @@
 
 <script setup>
 // import
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { initDropdowns } from "flowbite";
 import { useRoute } from "vue-router";
 import { FwbPagination } from "flowbite-vue";
@@ -929,6 +966,12 @@ const dataHotels = ref();
 const loading = ref(false);
 const going = ref([]);
 const store = useCounterStore();
+const searchByName = ref("");
+const dataHotelsHotels = ref("");
+const search_type = ref("city");
+const min = ref();
+const max = ref();
+const disabled = ref(false);
 
 // mounted
 // initialize components based on data attribute selectors
@@ -946,12 +989,14 @@ const hotelData = async () => {
       params: {
         dest_id: route.params.id,
         search_type: "CITY",
-        arrival_date: "2023-12-09",
-        departure_date: "2024-01-24",
+        arrival_date: "2024-01-07",
+        departure_date: "2024-02-06",
         adults: "1",
         children_age: "0,17",
         room_qty: "1",
         page_number: "1",
+        price_min: min.value,
+        price_max: max.value,
         languagecode: "en-us",
         currency_code: "AED",
       },
@@ -959,6 +1004,8 @@ const hotelData = async () => {
     .then((response) => {
       // handle success
       dataHotels.value = response.data.data;
+      dataHotelsHotels.value = response.data.data.hotels;
+      console.log(dataHotelsHotels.value, "dataHotels");
       store.SET_LOADING(false);
     })
     .catch((error) => {
@@ -980,6 +1027,42 @@ const getGoing = async () => {
       // handle error
     });
 };
+
+const sortBy = async (name) => {
+  api
+    .get("/hotels/getSortBy", {
+      params: {
+        dest_id: route.params.id,
+        search_type: name,
+        arrival_date: "2023-12-20",
+        departure_date: "2024-02-24",
+        adults: "1",
+        children_age: "1,17",
+        room_qty: "1",
+      },
+    })
+    .then((response) => {
+      dataHotelsHotels.value = response.data.data;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
+const minMax = (minV, maxV) => {
+  min.value = minV;
+  max.value = maxV;
+  hotelData();
+};
+
+// computed
+let filtereByName = computed(() => {
+  return dataHotelsHotels.value.filter((item) => {
+    return item.property.name
+      .toLowerCase()
+      .includes(searchByName.value.toLowerCase());
+  });
+});
 </script>
 
 <style lang="scss" scoped>
@@ -1070,6 +1153,16 @@ const getGoing = async () => {
       }
     }
     .min-max {
+      border: 1px dashed #e5e7eb;
+      input::placeholder {
+        color: #333;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%; /* 16.8px */
+        letter-spacing: 0.24px;
+      }
       .min,
       .max {
         border: 1px solid var(--Gray-5, #e0e0e0);
