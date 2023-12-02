@@ -285,13 +285,14 @@
             </svg>
             <span>Check out date</span>
           </div>
+          
           <!-- Guests -->
           <div
             class="information flex items-center col-span-2 lg:col-span-1 lg:w-36"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
+              width="27"
               height="20"
               viewBox="0 0 20 20"
               fill="none"
@@ -325,7 +326,13 @@
                 </clipPath>
               </defs>
             </svg>
-            <span>Guests</span>
+            <!-- <span>Guests</span> -->
+            <input
+              type="number"
+              class="w-full border border-none bg-transparent p-0"
+              placeholder="Guests"
+              v-model="searchResultData.guests"
+            />
           </div>
           <!-- Rooms -->
           <div
@@ -333,10 +340,11 @@
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
+              width="30"
               height="24"
               viewBox="0 0 24 24"
               fill="none"
+              class="transform translate-y-0.5"
             >
               <path
                 d="M7.4375 17H6.625L6.09687 15.4286H5V11.4804C5 11.0482 5.15911 10.6815 5.47734 10.3804C5.79557 10.0792 6.17812 9.92857 6.625 9.92857V7.57143C6.625 7.13929 6.78411 6.76935 7.10234 6.46161C7.42057 6.15387 7.80312 6 8.25 6H14.75C15.1969 6 15.5794 6.15387 15.8977 6.46161C16.2159 6.76935 16.375 7.13929 16.375 7.57143V9.92857C16.8219 9.92857 17.2044 10.0824 17.5227 10.3902C17.8409 10.6979 18 11.0679 18 11.5V15.4286H16.9031L16.375 17H15.5625L15.0344 15.4286H7.96562L7.4375 17ZM12.3125 9.92857H14.75V7.57143H12.3125V9.92857ZM8.25 9.92857H10.6875V7.57143H8.25V9.92857ZM6.625 13.8571H16.375V11.5H6.625V13.8571Z"
@@ -352,7 +360,13 @@
                 stroke-width="1.5"
               />
             </svg>
-            <span>Rooms</span>
+            <!-- <span>Rooms</span> -->
+            <input
+              type="number"
+              class="w-full border border-none bg-transparent p-0"
+              placeholder="Rooms"
+              v-model="searchResultData.rooms"
+            />
           </div>
           <!-- Search -->
           <div class="search col-span-2 lg:w-36">
@@ -556,13 +570,6 @@ const inspiration = reactive([
 ]);
 
 const minDate = ref();
-
-const store = useCounterStore();
-
-const Auth = store.loginGetter;
-
-const statusSvg = ref(true);
-
 const currentDate = new Date();
 var currentYear = currentDate.getFullYear();
 var currentMonth = currentDate.getMonth();
@@ -573,6 +580,21 @@ minDate.value =
   (currentDate.getMonth() + 1) +
   "-" +
   currentDate.getDate();
+
+const searchResultData = ref({
+  checkin: minDate.value,
+  checkout: "",
+  guests: "",
+  rooms: "",
+});
+
+
+
+const store = useCounterStore();
+
+const Auth = store.loginGetter;
+
+const statusSvg = ref(true);
 
 const going = ref([]);
 
@@ -602,12 +624,17 @@ const getGoing = async () => {
       // handle error
     });
 };
-
-// access the `store` variable anywhere in the component ✨
 </script>
 
 <style lang="scss" scoped>
 .home {
+  input::placeholder {
+    color: var(--Gray-2, #4f4f4f);
+    font-family: Work Sans;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.26px;
+  }
   .img {
     .heading-body {
       transform: translate(-50%, -50%);

@@ -197,17 +197,17 @@
                   <div class="select flex items-center gap-3 mb-5">
                     <select id="countries" class="input">
                       <option selected>April</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="FR">France</option>
-                      <option value="DE">Germany</option>
+                      <option value="May">May</option>
+                      <option value="June">June</option>
+                      <option value="August">August</option>
+                      <option value="September">September</option>
                     </select>
                     <select id="countries" class="input">
                       <option selected>2026</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="FR">France</option>
-                      <option value="DE">Germany</option>
+                      <option value="27">2027</option>
+                      <option value="28">2028</option>
+                      <option value="29">2029</option>
+                      <option value="30">2030</option>
                     </select>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

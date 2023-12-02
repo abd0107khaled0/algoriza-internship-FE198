@@ -73,7 +73,7 @@
           </div>
         </div>
         <div
-          class="col-span-7 flex items-center justify-center gap-3 lg:col-span-1 md:col-span-2 rounded"
+          class="col-span-7 flex items-center justify-start lg:justify-center gap-3 lg:col-span-1 md:col-span-3 rounded"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -159,7 +159,7 @@
           ><span class="typegrap">Mar 18, 2022</span>
         </div>
         <div
-          class="col-span-7 flex items-center justify-center gap-3 lg:col-span-1 md:col-span-2 rounded"
+          class="col-span-7 flex items-center justify-start lg:justify-center gap-3 lg:col-span-1 md:col-span-2 rounded"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
