@@ -156,7 +156,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             /></svg
-          ><span class="typegrap">Mar 18, 2022</span>
+          ><span class="typegrap">{{$route.query.checkin?$route.query.checkin:'checkin'}}</span>
         </div>
         <div
           class="col-span-7 flex items-center justify-start lg:justify-center gap-3 lg:col-span-1 md:col-span-2 rounded"
@@ -242,7 +242,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             /></svg
-          ><span class="typegrap">Mar 18, 2022</span>
+          ><span class="typegrap">{{$route.query.checkout?$route.query.checkout:'checkout'}}</span>
         </div>
         <div
           class="col-span-7 flex items-center justify-start gap-3 lg:col-span-1 md:col-span-2 rounded"
@@ -282,7 +282,7 @@
                 <rect width="20" height="20" fill="white" />
               </clipPath>
             </defs></svg
-          ><span class="typegrap">2 adult</span>
+          ><span class="typegrap">{{ $route.query.guests?$route.query.guests:'1' }} adult</span>
         </div>
         <div
           class="col-span-7 flex items-center justify-start gap-3 lg:col-span-1 md:col-span-2 rounded"
@@ -307,7 +307,7 @@
               stroke="#828282"
               stroke-width="1.5"
             /></svg
-          ><span class="typegrap">1 room</span>
+          ><span class="typegrap">{{ $route.query.rooms?$route.query.rooms:'1' }} room</span>
         </div>
         <div
           class="col-span-7 flex items-center justify-center gap-3 lg:col-span-1 md:col-span-2 rounded"
