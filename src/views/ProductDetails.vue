@@ -824,7 +824,6 @@ import api from "../service/api";
 const route = useRoute();
 const store = useCounterStore();
 const dataDetails = ref();
-const list = reactive([{}]);
 const imgChange = ref("/src/assets/img/Rect18.png");
 const targetSectionId = ref("scroll-section");
 const hotelDataDetails = ref([]);
@@ -837,6 +836,7 @@ onMounted(() => {
 });
 // methods
 
+// get hotel details
 const hotelDetails = async () => {
   store.SET_LOADING(true);
   api
@@ -890,7 +890,6 @@ const scrollToSection = () => {
 </script>
 
 <style lang="scss" scoped>
-// product-details {
 .overview-information {
   background: #f4f4f4;
   transform: translateY(-4px);
@@ -976,5 +975,4 @@ span.span-over {
 button.sign-in {
   width: 100%;
 }
-// }
 </style>

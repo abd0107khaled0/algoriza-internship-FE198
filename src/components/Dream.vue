@@ -4,7 +4,7 @@
       <div class="row">
         <div class="columns-3xl flex items-center">
           <img src="./../assets/img/favicon.png" alt="" />
-          <h2 class="ml-1 dream-heading">my Dream Place</h2>
+          <h2 class="ml-1 dream-heading">My Dream Place</h2>
         </div>
       </div>
     </div>

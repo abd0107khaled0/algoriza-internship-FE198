@@ -1,6 +1,8 @@
 <template>
   <div class="search-products">
     <div class="gradient relative"></div>
+
+    <!-- start search nav -->
     <div class="services container mx-auto">
       <div class="grid grid-cols-6 gap-4 bg-white p-3 rounded-lg">
         <div
@@ -341,6 +343,9 @@
         </div>
       </div>
     </div>
+    <!-- end search nav -->
+
+    <!-- start search body -->
     <div class="container mx-auto">
       <div class="grid grid-cols-7 gap-5">
         <!-- start search input  -->
@@ -998,8 +1003,10 @@
       </div>
     </div>
     <div class="container mx-auto covid pb-16">
+      <!-- component covid  -->
       <Covid />
     </div>
+    <!-- end search body -->
   </div>
 </template>
 

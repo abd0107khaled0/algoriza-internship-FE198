@@ -349,6 +349,7 @@
           <!-- end Important information about your booking -->
         </div>
 
+        <!-- start information -->
         <div class="col-span-3 lg:col-span-1 md:col-span-3 ...">
           <div class="card-box flex flex-col gap-6 bg-white mb-5">
             <div class="card-img w-full">
@@ -447,6 +448,7 @@
           </div>
           <!-- end rom -->
         </div>
+        <!-- end information -->
       </div>
     </div>
   </div>
@@ -493,7 +495,6 @@ const myHotels = () => {
   store.myTripsAction(store.myHotelGetter);
   router.push("/my-trips");
 };
-// computed
 </script>
 
 <style lang="scss" scoped>

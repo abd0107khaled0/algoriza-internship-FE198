@@ -547,8 +547,8 @@
 </template>
 
 <script setup>
+
 // import
-import Covid from "./../components/Covid.vue";
 import { onMounted, ref, reactive } from "vue";
 import { initDropdowns } from "flowbite";
 import { useCounterStore } from "./../store/index.js";
@@ -648,11 +648,8 @@ const searchResultData = ref({
 });
 
 const store = useCounterStore();
-
 const Auth = store.loginGetter;
-
 const statusSvg = ref(true);
-
 const going = ref([]);
 
 // mounted
@@ -663,10 +660,12 @@ onMounted(() => {
 });
 
 // methods
+// toggle price
 const toggle = function () {
   statusSvg.value = !statusSvg.value;
 };
 
+// searchDestination
 const getGoing = async () => {
   api
     .get("/hotels/searchDestination", {

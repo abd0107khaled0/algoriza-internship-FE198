@@ -85,7 +85,7 @@
                     Includes taxes and fees
                   </p>
                   <router-link
-                    :to="{ name: 'ProductDetails', params: { id: n } }"
+                    :to="{ name: 'ProductDetails', params: { id: n.hotel_id } }"
                   >
                     <button class="sign-in">View trip details</button>
                   </router-link>
@@ -184,6 +184,7 @@
 
       <!-- start covid component -->
       <div class="covid">
+        <!-- covid component -->
         <Covid />
       </div>
       <!-- end covid component -->

@@ -11,44 +11,25 @@
 // import
 import Footer from "./components/Layout/Footer.vue";
 import Header from "./components/Layout/Header.vue";
-import { computed, reactive, } from "vue";
+import { computed, reactive } from "vue";
 import { useRoute } from "vue-router";
-import { onMounted } from 'vue'
-import { 
-    initAccordions, 
-    initCarousels, 
-    initCollapses, 
-    initDials, 
-    initDismisses, 
-    initDrawers, 
-    initDropdowns, 
-    initModals, 
-    initPopovers, 
-    initTabs, 
-    initTooltips } from 'flowbite'
+import { onMounted } from "vue";
 
+// data
+// page accept header
+const namePagesHeader = reactive(["Register", "SignIn", "Main", "ErrorPage"]);
+// page accept footer
+const namePagesFooter = reactive([
+  "Register",
+  "SignIn",
+  "Main",
+  "Checkout",
+  "ErrorPage",
+]);
+const route = useRoute();
 
-    
-    // data
-    const namePagesHeader = reactive(["Register","SignIn","Main","ErrorPage"]);
-    const namePagesFooter = reactive(["Register","SignIn","Main","Checkout","ErrorPage"]);
-    const route = useRoute();
-    
-    // mounted
-    // initialize components based on data attribute selectors
-    onMounted(() => {
-        initAccordions();
-        initCarousels();
-        initCollapses();
-        initDials();
-        initDismisses();
-        initDrawers();
-        initDropdowns();
-        initModals();
-        initPopovers();
-        initTabs();
-        initTooltips();
-    })
+// mounted
+onMounted(() => {});
 
 // methods
 

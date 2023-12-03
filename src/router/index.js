@@ -25,7 +25,7 @@ const routes = [
         path: "/my-trips",
         name: "MyTrips",
         component: () => import("./../views/MyTrips.vue"),
-        meta: { title: "MyTrips", requiresAuth: true },
+        meta: { title: "My Trips", requiresAuth: true },
     },
     {
         path: "/checkout/:id",
