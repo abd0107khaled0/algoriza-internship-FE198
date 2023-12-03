@@ -28,7 +28,7 @@
                 stroke-width="1.5"
               />
             </svg>
-            Melbourne
+            {{$route.query.name?$route.query.name.slice(0,10) + '...':'cairo'}}
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,18 @@
                 v-show="going.region"
               >
                 <a
-                  :href="'/search/' + going.dest_id"
+                   :href="
+                      '/search/' +
+                      going.dest_id +
+                      '?checkin=' +
+                      $route.query.checkin +
+                      '&checkout=' +
+                      $route.query.checkout +
+                      '&guests=' +
+                      $route.query.guests +
+                      '&rooms=' +
+                      $route.query.rooms+'&name='+going.region
+                    "
                   class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                 >
                   <span>{{ going.region }}</span>
@@ -73,7 +84,7 @@
           </div>
         </div>
         <div
-          class="col-span-7 flex items-center justify-start lg:justify-center gap-3 lg:col-span-1 md:col-span-3 rounded"
+          class="col-span-7 flex items-center justify-start gap-3 lg:col-span-1 md:col-span-3 rounded"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -156,10 +167,12 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             /></svg
-          ><span class="typegrap">{{$route.query.checkin?$route.query.checkin:'checkin'}}</span>
+          ><span class="typegrap">{{
+            $route.query.checkin ? $route.query.checkin : "Check in date"
+          }}</span>
         </div>
         <div
-          class="col-span-7 flex items-center justify-start lg:justify-center gap-3 lg:col-span-1 md:col-span-2 rounded"
+          class="col-span-7 flex items-center justify-start gap-3 lg:col-span-1 md:col-span-2 rounded"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -242,7 +255,9 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             /></svg
-          ><span class="typegrap">{{$route.query.checkout?$route.query.checkout:'checkout'}}</span>
+          ><span class="typegrap">{{
+            $route.query.checkout ? $route.query.checkout : "Check out date"
+          }}</span>
         </div>
         <div
           class="col-span-7 flex items-center justify-start gap-3 lg:col-span-1 md:col-span-2 rounded"
@@ -282,7 +297,9 @@
                 <rect width="20" height="20" fill="white" />
               </clipPath>
             </defs></svg
-          ><span class="typegrap">{{ $route.query.guests?$route.query.guests:'1' }} adult</span>
+          ><span class="typegrap"
+            >{{ $route.query.guests ? $route.query.guests : "1" }} adult</span
+          >
         </div>
         <div
           class="col-span-7 flex items-center justify-start gap-3 lg:col-span-1 md:col-span-2 rounded"
@@ -307,7 +324,9 @@
               stroke="#828282"
               stroke-width="1.5"
             /></svg
-          ><span class="typegrap">{{ $route.query.rooms?$route.query.rooms:'1' }} room</span>
+          ><span class="typegrap"
+            >{{ $route.query.rooms ? $route.query.rooms : "1" }} room</span
+          >
         </div>
         <div
           class="col-span-7 flex items-center justify-center gap-3 lg:col-span-1 md:col-span-2 rounded"
@@ -452,6 +471,7 @@
                     placeholder="Min budget"
                     v-model="min"
                     :disabled="!disabled"
+                    @keyup.enter="minMax(min, max)"
                   />
                 </div>
                 <div class="max p-1 rounded w-32">
@@ -461,6 +481,7 @@
                     placeholder="Max budget"
                     v-model="max"
                     :disabled="!disabled"
+                    @keyup.enter="minMax(min, max)"
                   />
                 </div>
               </div>
@@ -657,14 +678,14 @@
                   aria-labelledby="dropdownHoverButton"
                 >
                   <li
-                    class="paragraph"
+                    class="paragraph cursor-pointer"
                     v-for="(dropdownRecommend, i) in dropdownRecommend"
                     :key="i"
                     v-show="dropdownRecommend.title"
+                    @click="sort_byMethod(dropdownRecommend.id)"
                   >
                     <a
-                      @click="sort_byMethod(dropdownRecommend.id)"
-                      class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
+                      class="px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                     >
                       <span>{{ dropdownRecommend.title }}</span>
                     </a>
@@ -873,11 +894,11 @@
                   </defs>
                 </svg>
               </li>
-              <li class="p-2.5 li-text active">1</li>
-              <li class="p-2.5 li-text">2</li>
-              <li class="p-2.5 li-text">3</li>
-              <li class="p-2.5 li-text">...</li>
-              <li class="p-2.5 li-text">20</li>
+              <li :class="['p-2.5 li-text',page_number==1?'active':'']" @click="paginationFun(1)">1</li>
+              <li :class="['p-2.5 li-text',page_number==2?'active':'']" @click="paginationFun(2)">2</li>
+              <li :class="['p-2.5 li-text',page_number==3?'active':'']" @click="paginationFun(3)">3</li>
+              <li :class="['p-2.5 li-text',page_number==4?'active':'']" @click="paginationFun(4)">4</li>
+              <li :class="['p-2.5 li-text',page_number==5?'active':'']" @click="paginationFun(5)">5</li>
               <li>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -972,10 +993,26 @@ const dataHotelsHotels = ref("");
 const search_type = ref("city");
 const min = ref();
 const max = ref();
+const page_number = ref(1);
 const HotelLength = ref();
 const dropdownRecommend = ref();
 const disabled = ref(false);
 const sort_by = ref("");
+const DateOut = ref();
+const currentDate = new Date();
+var currentYear = currentDate.getFullYear();
+var currentMonth = currentDate.getMonth();
+var currentDay = currentDate.getDate();
+DateOut.value =
+  currentDate.getFullYear() +
+  "-" +
+  (currentDate.getMonth() + 1 > 9
+    ? currentDate.getMonth() + 1
+    : "0" + (currentDate.getMonth() + 1)) +
+  "-" +
+  (currentDate.getDate() + 1 > 9
+    ? currentDate.getDate() + 1
+    : "0" + (currentDate.getDate() + 2));
 
 // mounted
 // initialize components based on data attribute selectors
@@ -994,13 +1031,15 @@ const hotelData = async () => {
       params: {
         dest_id: route.params.id,
         search_type: "CITY",
-        arrival_date: "2024-01-07",
-        departure_date: "2024-02-06",
-        adults: "1",
+        arrival_date: route.query.checkin,
+        departure_date: route.query.checkout
+          ? route.query.checkout
+          : DateOut.value,
+        adults: route.query.guests ? route.query.guests : "1",
         children_age: "0,17",
-        room_qty: "1",
+        room_qty: route.query.rooms ? route.query.rooms : "1",
         sort_by: "",
-        page_number: "1",
+        page_number: page_number.value,
         price_min: min.value,
         price_max: max.value,
         languagecode: "en-us",
@@ -1019,6 +1058,8 @@ const hotelData = async () => {
       return error;
     });
 };
+
+// search destination
 const getGoing = async () => {
   api
     .get("/hotels/searchDestination", {
@@ -1027,21 +1068,23 @@ const getGoing = async () => {
     .then((response) => {
       // handle success
       going.value = response.data.data;
-      console.log(going.value);
     })
     .catch((error) => {
       // handle error
     });
 };
 
+// sort by
 const sortBy = async (name) => {
   api
     .get("/hotels/getSortBy", {
       params: {
         dest_id: route.params.id,
-        search_type: name,
-        arrival_date: "2023-12-20",
-        departure_date: "2024-02-24",
+        search_type: "CITY",
+        arrival_date: route.query.checkin,
+        departure_date: route.query.checkout
+          ? route.query.checkout
+          : route.query.checkin,
         adults: "1",
         children_age: "1,17",
         room_qty: "1",
@@ -1055,11 +1098,19 @@ const sortBy = async (name) => {
     });
 };
 
+// pagination [1,2,3,4,5]
+const paginationFun = (id) => {
+  page_number.value = id;
+  hotelData();
+};
+
+// sort by value
 const sort_byMethod = (sort) => {
   sort_by.value = sort;
   hotelData();
 };
 
+// filter by min and max
 const minMax = (minV, maxV) => {
   min.value = minV;
   max.value = maxV;
@@ -1067,6 +1118,7 @@ const minMax = (minV, maxV) => {
 };
 
 // computed
+// filter by name
 let filtereByName = computed(() => {
   HotelLength.value = dataHotelsHotels.value.length;
   return dataHotelsHotels.value.filter((item) => {

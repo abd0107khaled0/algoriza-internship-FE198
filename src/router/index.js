@@ -28,7 +28,7 @@ const routes = [
         meta: { title: "MyTrips", requiresAuth: true },
     },
     {
-        path: "/checkout",
+        path: "/checkout/:id",
         name: "Checkout",
         component: () => import("./../views/CheckOut.vue"),
         meta: { title: "checkout", requiresAuth: true },
@@ -75,22 +75,6 @@ router.beforeEach((to, from) => {
             query: { redirect: to.fullPath },
         };
     }
-    // const admin = to.meta.admin
-    // if (store.state.authUser.user_type == 3 || store.state.authUser.user_type == 4) {
-    //     if (admin) {
-    //     } else {
-    //         return {
-    //             //path: "/admin",
-    //             path: "/",
-    //         };
-    //     }
-    // } else {
-    //     if (admin) {
-    //         return {
-    //             path: "/",
-    //         };
-    //     }
-    // }
 });
 
 export default router;

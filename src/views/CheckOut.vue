@@ -315,7 +315,9 @@
                 <a href="" class="see-more"> Rules and Restrictions </a> and
                 <a href="" class="see-more"> Terms </a> of Use.
               </p>
-              <button class="sign-in mb-8">Complete Booking</button>
+              <button class="sign-in mb-8" @click="myHotels()">
+                Complete Booking
+              </button>
               <div class="personal-information flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -452,7 +454,9 @@
 
 <script setup>
 // import
-import { reactive } from "vue";
+import { useCounterStore } from "../store";
+import { reactive, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 // data
 const cardImg = reactive([
@@ -461,6 +465,10 @@ const cardImg = reactive([
   "/src/assets/img/img5.png",
   "/src/assets/img/img4.png",
 ]);
+
+const store = useCounterStore();
+const route = useRoute();
+const router = useRouter();
 
 const informBooking = reactive([
   {
@@ -480,7 +488,11 @@ const informBooking = reactive([
 // mounted
 
 // methods
-
+// store id hotels
+const myHotels = () => {
+  store.myTripsAction({ id: route.params.id });
+  router.push("/my-trips");
+};
 // computed
 </script>
 

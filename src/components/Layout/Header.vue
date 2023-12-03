@@ -362,7 +362,6 @@ const user = store.loginGetter;
 // const router = useRouter();
 
 // methods
-console.log(user)
 const Logout = function () {
   router.push("/sign-in");
   store.LoginAuth({});

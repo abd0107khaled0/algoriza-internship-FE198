@@ -52,6 +52,9 @@
             ></i>
           </div>
         </div>
+        <p class="text-center text-red-600" v-if="register.status">
+          You must enter 8 letters and equal password and confirm
+        </p>
         <button type="submit" class="submit w-50">Submit</button>
         <p class="paragraph">
           Already have an account?
@@ -70,7 +73,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 // data
-const router  = useRouter()
+const router = useRouter();
 const store = useCounterStore();
 const show = ref(false);
 const showConfirm = ref(false);
@@ -80,17 +83,23 @@ const register = ref({
   confirmPassword: "",
   status: false,
 });
-console.log(register.value)
 
 // methods
-console.log(store.loginGetter)
 const registerAction = () => {
-  if (register.value.password == register.value.confirmPassword) {
+  if (register.value.password.length >= 8) {
+    if (register.value.password == register.value.confirmPassword) {
+      register.value.status = true;
+      localStorage.setItem("Auth_register", JSON.stringify(register.value));
+      store.LoginAuth(register.value);
+      router.push("/");
+      register.value.status = false;
+    } else {
+      register.value.status = true;
+    }
+  } else {
     register.value.status = true;
-    localStorage.setItem("Auth_register", JSON.stringify(register.value));
-    store.LoginAuth(register.value)
-    router.push('/')
   }
+  setTimeout(() => (register.value.status = false), 2000);
 };
 </script>
 

@@ -47,51 +47,14 @@
       <div class="container mx-auto">
         <div class="motel grid grid-cols-3 gap-8 pt-10" v-if="hotelDataDetails">
           <div class="col-span-3 lg:col-span-2 md:col-span-3">
-            <h2 class="heading-auth">{{hotelDataDetails.hotel_name}}</h2>
+            <h2 class="heading-auth">{{ hotelDataDetails.hotel_name }}</h2>
             <div class="review flex items-center gap-3 mt-3">
-              <div class="svg flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  v-for="(n, i) in hotelDataDetails.review_nr"
-                  :key="i"
-                >
-                  <g clip-path="url(#clip0_1_1283)">
-                    <path
-                      d="M10.0002 14.1667L5.10186 17.1584L6.43353 11.575L2.0752 7.84171L7.79603 7.38337L10.0002 2.08337L12.2044 7.38337L17.926 7.84171L13.5669 11.575L14.8985 17.1584L10.0002 14.1667Z"
-                      fill="#F2994A"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1_1283">
-                      <rect width="20" height="20" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10"
-                  height="20"
-                  viewBox="0 0 10 20"
-                  fill="none"
-                >
-                  <g clip-path="url(#clip0_1_1299)">
-                    <path
-                      d="M10.0002 14.1667L5.10186 17.1584L6.43353 11.575L2.0752 7.84171L7.79603 7.38337L10.0002 2.08337L12.2044 7.38337L17.926 7.84171L13.5669 11.575L14.8985 17.1584L10.0002 14.1667Z"
-                      fill="#F2994A"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1_1299">
-                      <rect width="10" height="20" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-              </div>
-              <span class="li-text">{{hotelDataDetails.review_nr}} ({{ hotelDataDetails.review_nr }} Reviews)</span>
+              <span class="li-text"
+                >{{ hotelDataDetails.review_nr }} ({{
+                  hotelDataDetails.review_nr
+                }}
+                Reviews)</span
+              >
             </div>
             <div class="loream flex items-center gap-1.5 mt-3">
               <svg
@@ -113,7 +76,7 @@
                 />
               </svg>
               <p class="heading-para">
-                {{hotelDataDetails.address}}
+                {{ hotelDataDetails.address }}
               </p>
             </div>
             <div class="overflow bg-white mt-8">
@@ -144,7 +107,7 @@
               </div>
               <div class="list p-6 pt-0 flex items-center gap-32">
                 <ul class="flex flex-col gap-3">
-                  <li class="flex items-center gap-3" >
+                  <li class="flex items-center gap-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"
@@ -688,12 +651,22 @@
                     </li>
                   </ul>
                 </div>
-                <button class="sign-in mt-6">Reserve suite</button>
+                <button
+                  class="sign-in mt-6"
+                  
+                >
+                <a :href="'/checkout/' + $route.params.id" class="text-white hover:text-white hover ">Reserve suite</a>
+                  
+                </button>
               </div>
             </div>
           </div>
           <div class="col-span-3 lg:col-span-1">
-            <div class="card-box bg-white rounded-md" v-for="(room ,i) in hotelDataDetails.rooms" :key="i">
+            <div
+              class="card-box bg-white rounded-md"
+              v-for="(room, i) in hotelDataDetails.rooms"
+              :key="i"
+            >
               <img
                 src="./../assets/img/Rect22.png"
                 alt="Rect22"
@@ -823,7 +796,9 @@
                     </li>
                   </ul>
                 </div>
-                <button class="sign-in mt-6">Reserve suite</button>
+                <button class="sign-in mt-6">
+                  <a :href="'/checkout/' + $route.params.id" class="text-white hover hover:text-white"> Reserve suite </a>
+                </button>
               </div>
             </div>
           </div>
@@ -879,7 +854,7 @@ const hotelDetails = async () => {
     })
     .then((response) => {
       // handle success
-      hotelDataDetails.value = response.data.data
+      hotelDataDetails.value = response.data.data;
 
       // description
       api
@@ -904,7 +879,6 @@ const hotelDetails = async () => {
       return error;
     });
 };
-
 
 // Function to scroll-section
 const scrollToSection = () => {

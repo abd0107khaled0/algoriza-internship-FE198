@@ -3,13 +3,12 @@
     <div class="container mx-auto flex flex-col justify-between">
       <div class="container cont mx-auto">
         <h2 class="heading-trip mb-7">My trips</h2>
-        
 
         <!-- start my trips -->
-        <div class="cards mb-96">
+        <div class="cards mb-96" v-if="data.length >= 1">
           <div
             class="card-box p-5 flex flex-col lg:flex-row items-center gap-6 bg-white mb-5"
-            v-for="(n, i) in 2"
+            v-for="(n, i) in data"
             :key="i"
           >
             <div class="card-img">
@@ -82,7 +81,7 @@
                     Includes taxes and fees
                   </p>
                   <router-link
-                    :to="{ name: 'ProductDetails', params: { id: i } }"
+                    :to="{ name: 'ProductDetails', params: { id: n.id } }"
                   >
                     <button class="sign-in">View trip details</button>
                   </router-link>
@@ -90,6 +89,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="trips text-blue-700" v-else>
+          no exist data go search home...
         </div>
         <!-- end my trips -->
       </div>
@@ -103,7 +105,14 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+// import
+import { useCounterStore } from "../store";
+
+// data
+const store = useCounterStore();
+const data = store.myTripsGetter;
+</script>
 
 <style lang="scss" scoped>
 .my-trips {

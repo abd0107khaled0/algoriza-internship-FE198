@@ -98,7 +98,20 @@
                   v-show="going.region"
                 >
                   <a
-                    :href="'/search/' + going.dest_id"
+                    :href="
+                      '/search/' +
+                      going.dest_id +
+                      '?checkin=' +
+                      searchResultData.checkin +
+                      '&checkout=' +
+                      searchResultData.checkout +
+                      '&guests=' +
+                      searchResultData.guests +
+                      '&rooms=' +
+                      searchResultData.rooms +
+                      '&name=' +
+                      going.region
+                    "
                     class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                   >
                     <span>{{ going.region }}</span>
@@ -109,96 +122,100 @@
           </div>
           <!-- check in data -->
           <div
-            class="information  col-span-2 lg:col-span-1 lg:w-36"
+            class="information col-span-2 lg:col-span-1 lg:w-36"
             @click="$refs.dateOne.click()"
           >
-          <div class="box flex items-center gap-2 cursor-pointer" v-if="checkinStatus" @click="checkinStatus = false">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
+            <div
+              class="box flex items-center gap-2 cursor-pointer"
+              v-if="checkinStatus"
+              @click="checkinStatus = false"
             >
-              <path
-                d="M6.6665 1.66675V4.16675"
-                stroke="#828282"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M13.3335 1.66675V4.16675"
-                stroke="#828282"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M2.9165 7.5752H17.0832"
-                stroke="#828282"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M17.5 7.08341V14.1667C17.5 16.6667 16.25 18.3334 13.3333 18.3334H6.66667C3.75 18.3334 2.5 16.6667 2.5 14.1667V7.08341C2.5 4.58341 3.75 2.91675 6.66667 2.91675H13.3333C16.25 2.91675 17.5 4.58341 17.5 7.08341Z"
-                stroke="#828282"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M13.0791 11.4167H13.0866"
-                stroke="#828282"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M13.0791 13.9167H13.0866"
-                stroke="#828282"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M9.99561 11.4167H10.0039"
-                stroke="#828282"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M9.99561 13.9167H10.0039"
-                stroke="#828282"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6.91162 11.4167H6.91995"
-                stroke="#828282"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6.91162 13.9167H6.91995"
-                stroke="#828282"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span>Check in date</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <path
+                  d="M6.6665 1.66675V4.16675"
+                  stroke="#828282"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.3335 1.66675V4.16675"
+                  stroke="#828282"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M2.9165 7.5752H17.0832"
+                  stroke="#828282"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M17.5 7.08341V14.1667C17.5 16.6667 16.25 18.3334 13.3333 18.3334H6.66667C3.75 18.3334 2.5 16.6667 2.5 14.1667V7.08341C2.5 4.58341 3.75 2.91675 6.66667 2.91675H13.3333C16.25 2.91675 17.5 4.58341 17.5 7.08341Z"
+                  stroke="#828282"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.0791 11.4167H13.0866"
+                  stroke="#828282"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.0791 13.9167H13.0866"
+                  stroke="#828282"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.99561 11.4167H10.0039"
+                  stroke="#828282"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.99561 13.9167H10.0039"
+                  stroke="#828282"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6.91162 11.4167H6.91995"
+                  stroke="#828282"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6.91162 13.9167H6.91995"
+                  stroke="#828282"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>Check in date</span>
             </div>
             <input
-            v-else
+              v-else
               type="date"
               :min="searchResultData.checkin"
               class="w-full border border-none bg-transparent p-0"
@@ -389,8 +406,9 @@
             />
           </div>
           <!-- Search -->
-          <div class="search col-span-2 lg:w-36">
+          <div class="search col-span-2 lg:w-36 p-0">
             <a
+              class="px-12"
               :href="
                 '/search/-290692?checkin=' +
                 searchResultData.checkin +
@@ -399,7 +417,9 @@
                 '&guests=' +
                 searchResultData.guests +
                 '&rooms=' +
-                searchResultData.rooms
+                searchResultData.rooms +
+                '&name=' +
+                'cairo'
               "
             >
               Search
@@ -602,9 +622,8 @@ const inspiration = reactive([
   },
 ]);
 
-
 const checkoutStatus = ref(true);
-const checkinStatus = ref(true)
+const checkinStatus = ref(true);
 const minDate = ref();
 const currentDate = new Date();
 var currentYear = currentDate.getFullYear();
@@ -613,9 +632,13 @@ var currentDay = currentDate.getDate();
 minDate.value =
   currentDate.getFullYear() +
   "-" +
-  (currentDate.getMonth() + 1) +
+  (currentDate.getMonth() + 1 > 9
+    ? currentDate.getMonth() + 1
+    : "0" + (currentDate.getMonth() + 1)) +
   "-" +
-  (currentDate.getDate() + 1);
+  (currentDate.getDate() + 1 > 9
+    ? currentDate.getDate() + 1
+    : "0" + (currentDate.getDate() + 1));
 
 const searchResultData = ref({
   checkin: minDate.value,
@@ -652,7 +675,6 @@ const getGoing = async () => {
     .then((response) => {
       // handle success
       going.value = response.data.data;
-      console.log(going.value);
     })
     .catch((error) => {
       // handle error

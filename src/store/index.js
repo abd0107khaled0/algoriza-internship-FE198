@@ -4,37 +4,40 @@ export const useCounterStore = defineStore('counter', {
     state: () => ({
         count: 0,
         name: 'Eduardo',
+
         //Check if pinia works
         check: "test",
         lang: "en",
+
         //Success Messages
         success: {
             createContact: false,
         },
+
         //Errors
         error: null,
         errorsList: [],
-        errors: {
-            signup: null,
-            public: null,
-        },
 
         //Auth user
         token: null,
         Auth: {
-            // avatar: null,
             email: '',
             password: '',
             status: '',
         },
+
         // loading
-        loading: false
+        loading: false,
+
+        // my tips data
+        myTips: [],
 
     }),
     getters: {
-        doubleCount: (state) => state.count * 2,
         loginGetter: (state) => state.Auth,
-        loadingGeter: (state) => state.loading
+        loadingGeter: (state) => state.loading,
+        myTripsGetter: (state) => state.myTips,
+
     },
     actions: {
 
@@ -43,6 +46,9 @@ export const useCounterStore = defineStore('counter', {
         },
         SET_LOADING(value) {
             this.loading = value
+        },
+        myTripsAction(value) {
+            this.myTips.push(value)
         }
     },
     persist: true,
