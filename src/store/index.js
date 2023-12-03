@@ -30,6 +30,7 @@ export const useCounterStore = defineStore('counter', {
         loading: false,
 
         // my tips data
+        myHotel: {},
         myTips: [],
 
     }),
@@ -37,6 +38,7 @@ export const useCounterStore = defineStore('counter', {
         loginGetter: (state) => state.Auth,
         loadingGeter: (state) => state.loading,
         myTripsGetter: (state) => state.myTips,
+        myHotelGetter: (state) => state.myHotel,
 
     },
     actions: {
@@ -47,9 +49,12 @@ export const useCounterStore = defineStore('counter', {
         SET_LOADING(value) {
             this.loading = value
         },
+        myHotelAction(value) {
+            this.myHotel = value
+        },
         myTripsAction(value) {
             this.myTips.push(value)
-        }
+        },
     },
     persist: true,
 })

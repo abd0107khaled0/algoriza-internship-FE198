@@ -1,6 +1,6 @@
 <template>
-  <footer class="pt-4" :class="[names ? 'bg' : '']">
-    <div class="container mx-auto mt-24">
+  <footer class="z-10 absolute w-full" :class="[names ? 'bg' : '']">
+    <div class="container mx-auto mt-20 ">
       <div class="body grid grid-cols-5  gap-3">
         <!-- start dream body -->
         <div class="dream-body col-span-3 lg:col-span-1  footer-span">

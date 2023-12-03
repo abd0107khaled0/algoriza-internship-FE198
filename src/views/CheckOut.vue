@@ -490,7 +490,7 @@ const informBooking = reactive([
 // methods
 // store id hotels
 const myHotels = () => {
-  store.myTripsAction({ id: route.params.id });
+  store.myTripsAction(store.myHotelGetter);
   router.push("/my-trips");
 };
 // computed

@@ -252,7 +252,7 @@
                 </li>
                 <li class="paragraph">
                   <a
-                    href="/checkout"
+                    href="/checkout/0"
                     class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                   >
                     <svg

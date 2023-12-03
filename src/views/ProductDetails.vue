@@ -803,7 +803,7 @@
             </div>
           </div>
         </div>
-        <div class="covid mt-36">
+        <div class="covid mt-36 pb-16">
           <Covid />
         </div>
       </div>

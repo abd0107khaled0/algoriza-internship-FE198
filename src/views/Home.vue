@@ -47,7 +47,7 @@
                 />
               </svg>
 
-              <span class="w-full text-left"> Where are you going? </span>
+              <span class="w-full text-left"> Where are you going ? </span>
               <svg
                 v-if="statusSvg"
                 xmlns="http://www.w3.org/2000/svg"

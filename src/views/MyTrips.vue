@@ -12,6 +12,95 @@
             :key="i"
           >
             <div class="card-img">
+              <img
+                :src="n.property.photoUrls[0] || './../assets/img/Rect16.png'"
+                alt=""
+              />
+            </div>
+            <div class="card-body flex flex-col justify-between items-start">
+              <div class="card-header">
+                <h4 class="heading-trip-card mb-2">
+                  {{
+                    n.property.name.length <= 30
+                      ? n.property.name
+                      : n.property.name.slice(0, 30) + "..."
+                  }}
+                </h4>
+                <div class="flex items-center footer-span">
+                  <div class="svg flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      v-for="(n, i) in Math.floor(n.property.reviewScore / 2) >
+                      10
+                        ? 5
+                        : Math.floor(n.property.reviewScore / 2)"
+                      :key="i"
+                      v-if="n"
+                    >
+                      <g clip-path="url(#clip0_1_1662)">
+                        <path
+                          d="M10.0002 14.1668L5.10186 17.1585L6.43353 11.5752L2.0752 7.84183L7.79603 7.3835L10.0002 2.0835L12.2044 7.3835L17.926 7.84183L13.5669 11.5752L14.8985 17.1585L10.0002 14.1668Z"
+                          fill="#F2994A"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1_1662">
+                          <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                  <span class="ml-3"
+                    >{{ Math.floor(n.property.reviewCount) }} ({{
+                      Math.floor(n.property.reviewCount) + " reviews"
+                    }})</span
+                  >
+                </div>
+              </div>
+              <div class="card-actions flex justify-between w-full">
+                <div class="card-actions-information mt-2">
+                  <h5 class="red-text mb-3">Non refundable</h5>
+                  <ul class="flex flex-col gap-2">
+                    <li class="li-text">Check in: {{n.property.checkinDate}}</li>
+                    <li class="li-text">Check out: {{n.property.checkoutDate}}</li>
+                    <li class="li-text">night stay</li>
+                  </ul>
+                </div>
+                <div class="card-actions-action text-right">
+                  <span
+                    ><del class="red-text mr-2">$150</del>
+                    <strong class="heading-home">
+                      ${{
+                        Math.floor(
+                          n.property.priceBreakdown.excludedPrice.value
+                        )
+                      }}</strong
+                    ></span
+                  >
+                  <p class="heading-home mt-1.5 mb-4">
+                    Includes taxes and fees
+                  </p>
+                  <router-link
+                    :to="{ name: 'ProductDetails', params: { id: n } }"
+                  >
+                    <button class="sign-in">View trip details</button>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="trips cards mb-96" v-else>
+          <div
+            class="card-box p-5 flex flex-col lg:flex-row items-center gap-6 bg-white mb-5"
+            v-for="(n, i) in 1"
+            :key="i"
+          >
+            <div class="card-img">
               <img src="./../assets/img/Rect16.png" alt="" />
             </div>
             <div class="card-body flex flex-col justify-between items-start">
@@ -66,7 +155,7 @@
               <div class="card-actions flex justify-between w-full">
                 <div class="card-actions-information mt-2">
                   <h5 class="red-text mb-3">Non refundable</h5>
-                  <ul class="flex flex-col gap-2">
+                  <ul class="flex flex-col justify-start gap-2">
                     <li class="li-text">Check in: Sunday, March 18, 2022</li>
                     <li class="li-text">Check out: Tuesday, March 20, 2022</li>
                     <li class="li-text">2 night stay</li>
@@ -81,7 +170,7 @@
                     Includes taxes and fees
                   </p>
                   <router-link
-                    :to="{ name: 'ProductDetails', params: { id: n.id } }"
+                    :to="{ name: 'ProductDetails', params: { id: n } }"
                   >
                     <button class="sign-in">View trip details</button>
                   </router-link>
@@ -89,9 +178,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="trips text-blue-700" v-else>
-          no exist data go search home...
         </div>
         <!-- end my trips -->
       </div>
@@ -136,6 +222,9 @@ const data = store.myTripsGetter;
           background: url(<path-to-image>), lightgray 50% / cover no-repeat;
         }
       }
+      li.li-text {
+        text-align: left;
+      }
       .card-body {
         width: 70%;
         .card-actions-action {
@@ -153,7 +242,6 @@ const data = store.myTripsGetter;
     }
   }
   .covid {
-    margin-bottom: -50px;
   }
 }
 @media (max-width: 1023px) {

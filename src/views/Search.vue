@@ -28,7 +28,11 @@
                 stroke-width="1.5"
               />
             </svg>
-            {{$route.query.name?$route.query.name.slice(0,10) + '...':'cairo'}}
+            {{
+              $route.query.name
+                ? $route.query.name.slice(0, 10) + "..."
+                : "cairo"
+            }}
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,18 +67,20 @@
                 v-show="going.region"
               >
                 <a
-                   :href="
-                      '/search/' +
-                      going.dest_id +
-                      '?checkin=' +
-                      $route.query.checkin +
-                      '&checkout=' +
-                      $route.query.checkout +
-                      '&guests=' +
-                      $route.query.guests +
-                      '&rooms=' +
-                      $route.query.rooms+'&name='+going.region
-                    "
+                  :href="
+                    '/search/' +
+                    going.dest_id +
+                    '?checkin=' +
+                    $route.query.checkin +
+                    '&checkout=' +
+                    $route.query.checkout +
+                    '&guests=' +
+                    $route.query.guests +
+                    '&rooms=' +
+                    $route.query.rooms +
+                    '&name=' +
+                    going.region
+                  "
                   class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-2"
                 >
                   <span>{{ going.region }}</span>
@@ -801,6 +807,7 @@
                       name: 'ProductDetails',
                       params: { id: dataHotel.hotel_id },
                     }"
+                    @click="storeMyHotel(dataHotel)"
                   >
                     <button class="sign-in">See availability</button>
                   </router-link>
@@ -894,11 +901,36 @@
                   </defs>
                 </svg>
               </li>
-              <li :class="['p-2.5 li-text',page_number==1?'active':'']" @click="paginationFun(1)">1</li>
-              <li :class="['p-2.5 li-text',page_number==2?'active':'']" @click="paginationFun(2)">2</li>
-              <li :class="['p-2.5 li-text',page_number==3?'active':'']" @click="paginationFun(3)">3</li>
-              <li :class="['p-2.5 li-text',page_number==4?'active':'']" @click="paginationFun(4)">4</li>
-              <li :class="['p-2.5 li-text',page_number==5?'active':'']" @click="paginationFun(5)">5</li>
+              <li
+                :class="['p-2.5 li-text', page_number == 1 ? 'active' : '']"
+                @click="paginationFun(1)"
+              >
+                1
+              </li>
+              <li
+                :class="['p-2.5 li-text', page_number == 2 ? 'active' : '']"
+                @click="paginationFun(2)"
+              >
+                2
+              </li>
+              <li
+                :class="['p-2.5 li-text', page_number == 3 ? 'active' : '']"
+                @click="paginationFun(3)"
+              >
+                3
+              </li>
+              <li
+                :class="['p-2.5 li-text', page_number == 4 ? 'active' : '']"
+                @click="paginationFun(4)"
+              >
+                4
+              </li>
+              <li
+                :class="['p-2.5 li-text', page_number == 5 ? 'active' : '']"
+                @click="paginationFun(5)"
+              >
+                5
+              </li>
               <li>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -965,7 +997,7 @@
         <!-- end search result  -->
       </div>
     </div>
-    <div class="container mx-auto covid">
+    <div class="container mx-auto covid pb-16">
       <Covid />
     </div>
   </div>
@@ -976,7 +1008,6 @@
 import { onMounted, ref, computed } from "vue";
 import { initDropdowns } from "flowbite";
 import { useRoute } from "vue-router";
-import { FwbPagination } from "flowbite-vue";
 import { useCounterStore } from "./../store/index.js";
 // api-service integration
 import api from "./../service/api";
@@ -1024,6 +1055,7 @@ onMounted(() => {
 });
 
 // methods
+// get hotel data
 const hotelData = async () => {
   store.SET_LOADING(true);
   api
@@ -1115,6 +1147,11 @@ const minMax = (minV, maxV) => {
   min.value = minV;
   max.value = maxV;
   hotelData();
+};
+
+// store myHotel
+const storeMyHotel = (data) => {
+  store.myHotelAction(data);
 };
 
 // computed
